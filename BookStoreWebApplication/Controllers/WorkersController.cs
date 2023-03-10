@@ -19,10 +19,26 @@ namespace BookStoreWebApplication.Controllers
         }
 
         // GET: Workers
-        public async Task<IActionResult> Index()
+        //public async Task<IActionResult> Index()
+        //{
+        //    var dbbookStoreContext = _context.Workers.Include(w => w.Bookstore);
+        //    return View(await dbbookStoreContext.ToListAsync());
+        //}
+
+        public async Task<IActionResult> Index(int? bookstoreId, string? bookstoreAddress)
         {
-            var dbbookStoreContext = _context.Workers.Include(w => w.Bookstore);
-            return View(await dbbookStoreContext.ToListAsync());
+            if (bookstoreId == null)
+            {
+                var workers = _context.Workers.Include(w => w.Bookstore);
+				return View(await workers.ToListAsync());
+            }
+			var bookstore = _context.Bookstores.FirstOrDefault(b => b.Id == bookstoreId);
+			var workersByBookstore = _context.Workers.Where(w => w.BookstoreId == bookstoreId).Include(w => w.Bookstore);
+			ViewBag.BookstoreId = bookstore.Id;
+			ViewBag.BookingstoreAddress = bookstore.FullAddress;
+            ViewBag.NeedsToShowBookstoreAddress = false;
+
+			return View(await workersByBookstore.ToListAsync());
         }
 
         // GET: Workers/Details/5
@@ -47,7 +63,7 @@ namespace BookStoreWebApplication.Controllers
         // GET: Workers/Create
         public IActionResult Create()
         {
-            ViewData["BookstoreId"] = new SelectList(_context.Bookstores, "Id", "Id");
+            ViewData["BookstoreId"] = new SelectList(_context.Bookstores, "Id", "FullAddress");
             return View();
         }
 
@@ -64,19 +80,8 @@ namespace BookStoreWebApplication.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            else
-            {
-                foreach (var item in ModelState.Values)
-                {
-                    if (item.ValidationState == Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid) {
-                        Console.WriteLine(item.RawValue);
-                    }
-                }
-                //Console.WriteLine(ModelState.Values);
-            }
-            Console.WriteLine("Test");
             
-            ViewData["BookstoreId"] = new SelectList(_context.Bookstores, "Id", "Id", worker.BookstoreId);
+            ViewData["BookstoreId"] = new SelectList(_context.Bookstores, "Id", "FullAddress", worker.BookstoreId);
             return View(worker);
         }
 
@@ -93,7 +98,7 @@ namespace BookStoreWebApplication.Controllers
             {
                 return NotFound();
             }
-            ViewData["BookstoreId"] = new SelectList(_context.Bookstores, "Id", "Id", worker.BookstoreId);
+            ViewData["BookstoreId"] = new SelectList(_context.Bookstores, "Id", "FullAddress", worker.BookstoreId);
             return View(worker);
         }
 
@@ -129,7 +134,7 @@ namespace BookStoreWebApplication.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["BookstoreId"] = new SelectList(_context.Bookstores, "Id", "Id", worker.BookstoreId);
+            ViewData["BookstoreId"] = new SelectList(_context.Bookstores, "Id", "FullAddress", worker.BookstoreId);
             return View(worker);
         }
 
@@ -159,7 +164,7 @@ namespace BookStoreWebApplication.Controllers
         {
             if (_context.Workers == null)
             {
-                return Problem("Entity set 'DbbookStoreContext.Workers'  is null.");
+                return Problem("Entity set 'DbbookStoreContext.Workers' is null.");
             }
             var worker = await _context.Workers.FindAsync(id);
             if (worker != null)
