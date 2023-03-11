@@ -49,7 +49,7 @@ public partial class DbbookStoreContext : DbContext
             entity.Property(e => e.BirthDate)
                 .HasColumnType("datetime")
                 .HasColumnName("Birth_Date");
-            entity.Property(e => e.Genres).HasColumnType("ntext");
+            //entity.Property(e => e.Genres).HasColumnType("ntext");
             entity.Property(e => e.Name).HasMaxLength(100);
             entity.Property(e => e.ShortBiography)
                 .HasColumnType("ntext")
