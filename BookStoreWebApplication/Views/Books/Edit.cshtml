@@ -1,0 +1,70 @@
+﻿@model BookStoreWebApplication.Models.Book
+
+@{
+	ViewData["Title"] = $"Редагування {Model.Name}";
+}
+
+<h1>Edit</h1>
+
+<h4>Book</h4>
+<hr />
+<div class="row">
+	<div class="col-md-4">
+		<form asp-action="Edit">
+			<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+			<input type="hidden" asp-for="Id" />
+			<div class="form-group">
+				<label asp-for="Name" class="control-label"></label>
+				<input asp-for="Name" class="form-control" />
+				<span asp-validation-for="Name" class="text-danger"></span>
+			</div>
+			<div class="form-group">
+				<label asp-for="PublicationYear" class="control-label"></label>
+				<input asp-for="PublicationYear" class="form-control" />
+				<span asp-validation-for="PublicationYear" class="text-danger"></span>
+			</div>
+			<div class="form-group">
+				<label asp-for="CoverType" class="control-label"></label>
+				<input asp-for="CoverType" class="form-control" />
+				<span asp-validation-for="CoverType" class="text-danger"></span>
+			</div>
+			<div class="form-group">
+				<label asp-for="Price" class="control-label"></label>
+				<input asp-for="Price" class="form-control" />
+				<span asp-validation-for="Price" class="text-danger"></span>
+			</div>
+
+			<div class="form-group">
+				<label asp-for="GenreIds" class="control-label"></label>
+				<span asp-validation-for="GenreIds" class="text-danger"></span>
+				<p>@Model.BooksGenres.Count</p>
+				<select asp-for="GenreIds" class="form-control" multiple>
+					@foreach (Genre genre in ViewBag.AllGenres)
+					{
+						@if (Model.BooksGenres.Select(b => b.Genre.Id).Contains(genre.Id))
+						{
+							<option value="@genre.Id" selected>@genre.Name</option>
+						}
+						else
+						{
+							<option value="@genre.Id">@genre.Name</option>
+						}
+					}
+				</select>
+			</div>
+			<div class="form-group">
+				<input type="submit" value="Зберегти" class="btn btn-primary" />
+			</div>
+		</form>
+	</div>
+</div>
+
+<div>
+	<a asp-action="Index">Назад до книг</a>
+</div>
+
+@section Scripts {
+	@{
+		await Html.RenderPartialAsync("_ValidationScriptsPartial");
+	}
+}

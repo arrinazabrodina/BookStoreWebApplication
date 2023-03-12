@@ -111,7 +111,7 @@ public partial class DbbookStoreContext : DbContext
             entity.Property(e => e.CoverType)
                 .HasMaxLength(50)
                 .HasColumnName("Cover_Type");
-            entity.Property(e => e.Genre).HasColumnType("ntext");
+            entity.Property(e => e.Name).HasColumnType("ntext");
             entity.Property(e => e.PublicationYear).HasColumnName("Publication_Year");
         });
 
