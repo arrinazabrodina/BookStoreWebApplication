@@ -164,6 +164,7 @@ public partial class DbbookStoreContext : DbContext
             entity.Property(e => e.BuyerId).HasColumnName("Buyer_Id");
             entity.Property(e => e.Date).HasColumnType("datetime");
             entity.Property(e => e.SellerId).HasColumnName("Seller_Id");
+            entity.Property(e => e.Price).HasColumnName("Price");
 
             entity.HasOne(d => d.Buyer).WithMany(p => p.Orders)
                 .HasForeignKey(d => d.BuyerId)

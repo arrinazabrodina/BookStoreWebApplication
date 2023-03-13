@@ -13,6 +13,8 @@ public partial class Order
 
     public int SellerId { get; set; }
 
+    public float Price { get; set; }
+
     public virtual Buyer Buyer { get; set; } = null!;
 
     public virtual ICollection<OrderItem> OrderItems { get; } = new List<OrderItem>();
