@@ -21,7 +21,10 @@ namespace BookStoreWebApplication.Controllers
 		// GET: Books
 		public async Task<IActionResult> Index()
 		{
-			var books = await _context.Books.Include(b => b.BooksGenres).ThenInclude(b => b.Genre).ToListAsync();
+			var books = await _context.Books
+				.Include(b => b.BooksGenres).ThenInclude(b => b.Genre)
+				.Include(b => b.AuthorsBooks).ThenInclude(ab => ab.Author)
+				.ToListAsync();
 
 			return View(books);
 		}
@@ -34,7 +37,9 @@ namespace BookStoreWebApplication.Controllers
 				return NotFound();
 			}
 
-			var book = await _context.Books.Include(b => b.BooksGenres).ThenInclude(g => g.Genre)
+			var book = await _context.Books
+				.Include(b => b.BooksGenres).ThenInclude(g => g.Genre)
+				.Include(b => b.AuthorsBooks).ThenInclude(ab => ab.Author)
 				.FirstOrDefaultAsync(m => m.Id == id);
 			if (book == null)
 			{
@@ -48,7 +53,8 @@ namespace BookStoreWebApplication.Controllers
 		public async Task<IActionResult> Create()
 		{
 			ViewBag.AllGenres = await _context.Genres.ToListAsync();
-			return View();
+            ViewBag.AllAuthors = await _context.Authors.ToListAsync();
+            return View();
 		}
 
 		// POST: Books/Create
@@ -56,17 +62,24 @@ namespace BookStoreWebApplication.Controllers
 		// For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public async Task<IActionResult> Create([Bind("Id,Name,PublicationYear,Genre,CoverType,Price,GenreIds")] Book book)
+		public async Task<IActionResult> Create([Bind("Id,Name,PublicationYear,Genre,CoverType,Price,GenreIds,AuthorIds")] Book book)
 		{
 			if (ModelState.IsValid)
 			{
 				var selectedGenres = (await _context.Genres.ToListAsync())
 						.FindAll(g => book.GenreIds.Contains(g.Id));
+				var selectedAuthors = (await _context.Authors.ToListAsync())
+					.FindAll(a => book.AuthorIds.Contains(a.Id));
 				_context.Add(book);
 				foreach (var genre in selectedGenres)
 				{
 					var bookGenre = new BooksGenre { Book = book, GenreId = genre.Id };
 					_context.Add(bookGenre);
+				}
+				foreach (var author in selectedAuthors)
+				{
+					var authorBook = new AuthorsBook { Book = book, AuthorId = author.Id };
+					_context.Add(authorBook);
 				}
 				await _context.SaveChangesAsync();
 				return RedirectToAction(nameof(Index));
@@ -82,12 +95,16 @@ namespace BookStoreWebApplication.Controllers
 				return NotFound();
 			}
 
-			var book = await _context.Books.Include(b => b.BooksGenres).ThenInclude(b => b.Genre).FirstAsync(book => book.Id == id);
+			var book = await _context.Books
+				.Include(b => b.BooksGenres).ThenInclude(b => b.Genre)
+				.Include(b => b.AuthorsBooks).ThenInclude(b => b.Author)
+				.FirstAsync(book => book.Id == id);
 			if (book == null)
 			{
 				return NotFound();
 			}
 			ViewBag.AllGenres = await _context.Genres.ToListAsync();
+			ViewBag.AllAuthors = await _context.Authors.ToListAsync();
 
 			return View(book);
 		}
@@ -97,7 +114,7 @@ namespace BookStoreWebApplication.Controllers
 		// For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public async Task<IActionResult> Edit(int id, [Bind("Id,Name,PublicationYear,CoverType,Price,GenreIds")] Book book)
+		public async Task<IActionResult> Edit(int id, [Bind("Id,Name,PublicationYear,CoverType,Price,GenreIds,AuthorIds")] Book book)
 		{
 			if (id != book.Id)
 			{
@@ -108,9 +125,10 @@ namespace BookStoreWebApplication.Controllers
 			{
 				try
 				{
-					var prevSelectedGenres = await _context.BooksGenres.ToListAsync();
+					// genres
+					var prevSelectedGenres = (await _context.BooksGenres.ToListAsync())
+						.FindAll(g => g.BookId == book.Id);
 					var prevSelectedGenresIds = prevSelectedGenres
-						.FindAll(g => g.BookId == book.Id)
 						.Select(g => g.GenreId).ToList();
 					var selectedGenres = (await _context.Genres.ToListAsync())
 						.FindAll(g => book.GenreIds.Contains(g.Id));
@@ -129,8 +147,31 @@ namespace BookStoreWebApplication.Controllers
                     {
 						var bookGenre = new BooksGenre { GenreId = genre.Id, BookId = book.Id };
 						_context.Add(bookGenre);
-						book.BooksGenres.Add(bookGenre);
 					}
+
+					// authors
+					var prevSelectedAuthors = (await _context.AuthorsBooks.ToListAsync())
+						.FindAll(a => a.BookId == book.Id);
+					var prevSelectedAuthorIds = prevSelectedAuthors
+						.Select(a => a.Id).ToList();
+					var selectedAuthors = (await _context.Authors.ToListAsync())
+						.FindAll(a => book.AuthorIds.Contains(a.Id));
+					var selectedAuthorsIds = selectedAuthors
+						.Select(a => a.Id);
+
+					var authorsToAdd = selectedAuthors.FindAll(a => !prevSelectedAuthorIds.Contains(a.Id));
+					var authorIdsToDelete = prevSelectedAuthorIds.FindAll(a => !selectedGenresIds.Contains(a));
+					var authorsToDelete = prevSelectedAuthors.FindAll(ab => authorIdsToDelete.Contains(ab.AuthorId));
+					foreach (var author in authorsToDelete)
+					{
+						_context.Remove(author);
+					}
+					foreach (var author in authorsToAdd)
+					{
+						var authorBook = new AuthorsBook { BookId = book.Id, AuthorId = author.Id };
+						_context.Add(authorBook);
+					}
+
 					_context.Update(book);
 					await _context.SaveChangesAsync();
 				}
