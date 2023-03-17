@@ -36,6 +36,26 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXV0aG9yc1xJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/Саша/Desktop/BookStoreWebApplication/BookStoreWebApplication/Views/Availabilities/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXZhaWxhYmlsaXRpZXNcQ3JlYXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Саша/Desktop/BookStoreWebApplication/BookStoreWebApplication/Views/Availabilities/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXZhaWxhYmlsaXRpZXNcRGVsZXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Саша/Desktop/BookStoreWebApplication/BookStoreWebApplication/Views/Availabilities/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXZhaWxhYmlsaXRpZXNcRGV0YWlscy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Саша/Desktop/BookStoreWebApplication/BookStoreWebApplication/Views/Availabilities/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXZhaWxhYmlsaXRpZXNcRWRpdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Саша/Desktop/BookStoreWebApplication/BookStoreWebApplication/Views/Availabilities/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXZhaWxhYmlsaXRpZXNcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/Саша/Desktop/BookStoreWebApplication/BookStoreWebApplication/Views/Bookstores/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQm9va3N0b3Jlc1xDcmVhdGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
