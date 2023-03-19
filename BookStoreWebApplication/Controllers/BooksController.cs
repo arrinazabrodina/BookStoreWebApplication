@@ -153,7 +153,7 @@ namespace BookStoreWebApplication.Controllers
 					var prevSelectedAuthors = (await _context.AuthorsBooks.ToListAsync())
 						.FindAll(a => a.BookId == book.Id);
 					var prevSelectedAuthorIds = prevSelectedAuthors
-						.Select(a => a.Id).ToList();
+						.Select(a => a.AuthorId).ToList();
 					var selectedAuthors = (await _context.Authors.ToListAsync())
 						.FindAll(a => book.AuthorIds.Contains(a.Id));
 					var selectedAuthorsIds = selectedAuthors

@@ -21,7 +21,9 @@ namespace BookStoreWebApplication.Controllers
         // GET: Availabilities
         public async Task<IActionResult> Index()
         {
-            var dbbookStoreContext = _context.Availabilities.Include(a => a.Book).Include(a => a.Bookstore);
+            var dbbookStoreContext = _context.Availabilities
+                .Include(a => a.Book).ThenInclude(b => b.AuthorsBooks).ThenInclude(b => b.Author)
+                .Include(a => a.Bookstore);
             return View(await dbbookStoreContext.ToListAsync());
         }
 
@@ -48,8 +50,8 @@ namespace BookStoreWebApplication.Controllers
         // GET: Availabilities/Create
         public IActionResult Create()
         {
-            ViewData["BookId"] = new SelectList(_context.Books, "Id", "CoverType");
-            ViewData["BookstoreId"] = new SelectList(_context.Bookstores, "Id", "Id");
+            ViewData["BookId"] = new SelectList(_context.Books, "Id", "FullInfo");
+            ViewData["BookstoreId"] = new SelectList(_context.Bookstores, "Id", "FullAddress");
             return View();
         }
 

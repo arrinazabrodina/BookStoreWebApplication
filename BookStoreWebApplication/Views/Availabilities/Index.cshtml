@@ -13,13 +13,13 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Count)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.Book)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Bookstore)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Count)
             </th>
             <th>
                 Дії
@@ -30,14 +30,14 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Count)
+                @Html.DisplayFor(modelItem => item.Book.FullInfo)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Book.CoverType)
+                @Html.DisplayFor(modelItem => item.Bookstore.FullAddress)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Bookstore.Id)
-            </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Count)
+                </td>
             <td>
                 <a asp-action="Details" asp-route-id="@item.Id">Деталі</a> |
                 <a asp-action="Edit" asp-route-id="@item.Id">Редагувати</a> |

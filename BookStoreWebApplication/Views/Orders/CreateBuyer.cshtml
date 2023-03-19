@@ -5,10 +5,11 @@
 }
 
 <h2>Додати покупця</h2>
+<h2>@ViewBag.WorkerId</h2>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form asp-action="CreateBuyer" asp-route-worker="@ViewBag.WorkerId">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
@@ -43,9 +44,12 @@
 </div>
 
 <div>
-    <a asp-action="Index">Назад до покупців</a>
+    <a asp-action="SelectBuyer" asp-route-id="@ViewBag.WorkerId">Назад до покупців</a>
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }
+

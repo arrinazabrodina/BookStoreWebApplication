@@ -42,6 +42,14 @@ public partial class Book
 		}
 	}
 
+    public string FullInfo
+    {
+        get
+        {
+            return $"{Name}, {Authors}";
+        }
+    }
+
 	public virtual ICollection<AuthorsBook> AuthorsBooks { get; } = new List<AuthorsBook>();
 
     public virtual ICollection<Availability> Availabilities { get; } = new List<Availability>();

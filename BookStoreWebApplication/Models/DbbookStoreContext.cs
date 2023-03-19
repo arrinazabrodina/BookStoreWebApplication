@@ -165,7 +165,7 @@ public partial class DbbookStoreContext : DbContext
             entity.Property(e => e.Date).HasColumnType("datetime");
             entity.Property(e => e.SellerId).HasColumnName("Seller_Id");
             entity.Property(e => e.Price).HasColumnName("Price");
-
+            
             entity.HasOne(d => d.Buyer).WithMany(p => p.Orders)
                 .HasForeignKey(d => d.BuyerId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
@@ -181,7 +181,6 @@ public partial class DbbookStoreContext : DbContext
         {
             entity.HasKey(e => e.Id).HasName("PK_Items");
 
-            entity.Property(e => e.Id).ValueGeneratedNever();
             entity.Property(e => e.BookId).HasColumnName("Book_Id");
             entity.Property(e => e.BuyId).HasColumnName("Buy_Id");
 

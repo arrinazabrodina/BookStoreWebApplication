@@ -148,6 +148,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT3JkZXJzXENyZWF0ZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/Саша/Desktop/BookStoreWebApplication/BookStoreWebApplication/Views/Orders/CreateBuyer.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT3JkZXJzXENyZWF0ZUJ1eWVyLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/Саша/Desktop/BookStoreWebApplication/BookStoreWebApplication/Views/Orders/Delete.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT3JkZXJzXERlbGV0ZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
@@ -162,6 +166,22 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/Саша/Desktop/BookStoreWebApplication/BookStoreWebApplication/Views/Orders/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT3JkZXJzXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Саша/Desktop/BookStoreWebApplication/BookStoreWebApplication/Views/Orders/SelectBook.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT3JkZXJzXFNlbGVjdEJvb2suY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Саша/Desktop/BookStoreWebApplication/BookStoreWebApplication/Views/Orders/SelectBookstore.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT3JkZXJzXFNlbGVjdEJvb2tzdG9yZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Саша/Desktop/BookStoreWebApplication/BookStoreWebApplication/Views/Orders/SelectBuyer.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT3JkZXJzXFNlbGVjdEJ1eWVyLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Саша/Desktop/BookStoreWebApplication/BookStoreWebApplication/Views/Orders/SelectWorker.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT3JkZXJzXFNlbGVjdFdvcmtlci5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/Саша/Desktop/BookStoreWebApplication/BookStoreWebApplication/Views/Shared/Error.cshtml]

@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BookStoreWebApplication.Models;
 
-namespace BookStoreWebApplication.Views
+namespace BookStoreWebApplication.Controllers
 {
     public class GenresController : Controller
     {
@@ -21,7 +21,7 @@ namespace BookStoreWebApplication.Views
         // GET: Genres
         public async Task<IActionResult> Index()
         {
-              return View(await _context.Genres.ToListAsync());
+            return View(await _context.Genres.ToListAsync());
         }
 
         // GET: Genres/Details/5
@@ -147,14 +147,14 @@ namespace BookStoreWebApplication.Views
             {
                 _context.Genres.Remove(genre);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool GenreExists(int id)
         {
-          return _context.Genres.Any(e => e.Id == id);
+            return _context.Genres.Any(e => e.Id == id);
         }
     }
 }
