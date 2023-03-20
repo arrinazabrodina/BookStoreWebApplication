@@ -10,6 +10,12 @@
     <h4>@Html.DisplayFor(m => m.Book.Name) за адресою @Html.DisplayFor(m=>m.Bookstore.FullAddress)</h4>
     <hr />
     <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Book)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Book.FullInfo)
+        </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Count)
         </dt>
@@ -17,16 +23,10 @@
             @Html.DisplayFor(model => model.Count)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Book)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Book.CoverType)
-        </dd>
-        <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Bookstore)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Bookstore.Id)
+            @Html.DisplayFor(model => model.Bookstore.FullAddress)
         </dd>
     </dl>
 </div>

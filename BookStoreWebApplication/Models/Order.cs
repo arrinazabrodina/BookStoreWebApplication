@@ -46,9 +46,11 @@ public partial class Order
     public virtual Worker Seller { get; set; } = null!;
 
     [NotMapped()]
+    [Display(Name = "Книга")]
     public virtual int? CurrentBookId { get; set; }
 
     [NotMapped()]
+    [Display(Name = "Кількість")]
     public virtual int? CurrentBookCount { get; set; }
 }
 

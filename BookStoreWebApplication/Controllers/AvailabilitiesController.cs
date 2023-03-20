@@ -36,7 +36,7 @@ namespace BookStoreWebApplication.Controllers
             }
 
             var availability = await _context.Availabilities
-                .Include(a => a.Book)
+                .Include(a => a.Book).ThenInclude(b => b.AuthorsBooks).ThenInclude(a => a.Author)
                 .Include(a => a.Bookstore)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (availability == null)
@@ -50,7 +50,7 @@ namespace BookStoreWebApplication.Controllers
         // GET: Availabilities/Create
         public IActionResult Create()
         {
-            ViewData["BookId"] = new SelectList(_context.Books, "Id", "FullInfo");
+            ViewData["BookId"] = new SelectList(_context.Books.Include(b => b.AuthorsBooks).ThenInclude(a => a.Author), "Id", "FullInfo");
             ViewData["BookstoreId"] = new SelectList(_context.Bookstores, "Id", "FullAddress");
             return View();
         }
@@ -64,7 +64,16 @@ namespace BookStoreWebApplication.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(availability);
+                var oldAvailability = _context.Availabilities.FirstOrDefault(a => a.BookId == availability.BookId && a.BookstoreId == availability.BookstoreId);
+                if (oldAvailability != null)
+                {
+                    oldAvailability.Count += availability.Count;
+                    _context.Update(oldAvailability);
+                }
+                else
+                {
+                    _context.Add(availability);
+                }
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
@@ -86,8 +95,8 @@ namespace BookStoreWebApplication.Controllers
             {
                 return NotFound();
             }
-            ViewData["BookId"] = new SelectList(_context.Books, "Id", "CoverType", availability.BookId);
-            ViewData["BookstoreId"] = new SelectList(_context.Bookstores, "Id", "Id", availability.BookstoreId);
+            ViewData["BookId"] = new SelectList(_context.Books.Include(b => b.AuthorsBooks).ThenInclude(a => a.Author), "Id", "FullInfo", availability.BookId);
+            ViewData["BookstoreId"] = new SelectList(_context.Bookstores, "Id", "FullAddress", availability.BookstoreId);
             return View(availability);
         }
 
