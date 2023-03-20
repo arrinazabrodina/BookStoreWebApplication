@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using BookStoreWebApplication.Models;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.AspNetCore.Connections.Features;
+using Microsoft.IdentityModel.Tokens;
 
 namespace BookStoreWebApplication.Controllers
 {
@@ -149,7 +150,16 @@ namespace BookStoreWebApplication.Controllers
                         var book = books.FirstOrDefault(b => currentBookId == b.Id);
                         if (book != null)
                         {
-                            bookCounts.Add(new(book, currentCount));
+                            var existingBookCount = bookCounts.FirstOrDefault(b => b.book.Id == book.Id);
+                            if (existingBookCount == null)
+                            {
+                                BooksCounts newBookCount = new(book, currentCount);
+                                bookCounts.Add(newBookCount);
+                            }
+                            else
+                            {
+                                existingBookCount.count += currentCount;
+                            }
                         }
                     }
                 }
@@ -160,9 +170,40 @@ namespace BookStoreWebApplication.Controllers
                 var book = books.FirstOrDefault(b => order.CurrentBookId == b.Id);
                 if (book != null)
                 {
-                    BooksCounts a = new(book, (int)order.CurrentBookCount);
-                    bookCounts.Add(a);
+                    var existingBookCount = bookCounts.FirstOrDefault(b => b.book.Id == book.Id);
+                    if (existingBookCount == null)
+                    {
+                        BooksCounts newBookCount = new(book, (int)order.CurrentBookCount);
+                        bookCounts.Add(newBookCount);
+                    }
+                    else
+                    {
+                        existingBookCount.count += (int)order.CurrentBookCount;
+                    }
                 }
+            }
+
+            var availabilities = await _context.Availabilities.ToListAsync();
+            var itemsToRemove = new List<BooksCounts>();
+            foreach (var bookCount in bookCounts)
+            {
+                var availability = availabilities.FirstOrDefault(a => a.BookId == bookCount.book.Id);
+                if (availability != null)
+                {
+                    if (availability.Count < bookCount.count)
+                    {
+                        bookCount.count = availability.Count;
+                    }
+                }
+                else
+                {
+                    itemsToRemove.Add(bookCount);
+                }
+            }
+
+            foreach (var item in itemsToRemove)
+            {
+                bookCounts.Remove(item);
             }
 
             List<(string, int)> currentItemsViewData = new List<(string, int)>();
@@ -208,6 +249,11 @@ namespace BookStoreWebApplication.Controllers
             if (buyerId == null || workerId == null)
             {
                 return NotFound();
+            }
+
+            if (items.IsNullOrEmpty())
+            {
+                return RedirectToAction(nameof(Index));
             }
 
             var seller = await _context.Workers.Include(w => w.Bookstore).FirstOrDefaultAsync(w => w.Id == workerId);
