@@ -32,5 +32,22 @@ namespace BookStoreWebApplication.Controllers
 
 			return new JsonResult(bookstoresResult);
 		}
-	}
+
+        [HttpGet("GenresToBooks")]
+        public async Task<JsonResult> GenresToBooksStatistics()
+        {
+			var genres = await _context.Genres.ToListAsync();
+			var books = await _context.Books.Include(b => b.BooksGenres).ToListAsync();
+            var genresResult = new List<object>();
+            genresResult.Add(new object[] { "Жанр", "Кількість книг" });
+            foreach (var genre in genres)
+            {
+				var genreBooks = books.Where(b => b.BooksGenres.Select(b => b.GenreId).Contains(genre.Id));
+
+                genresResult.Add(new object[] { genre.Name, genreBooks.Count() });
+            }
+
+            return new JsonResult(genresResult);
+        }
+    }
 }

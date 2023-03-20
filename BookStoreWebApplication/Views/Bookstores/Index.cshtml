@@ -44,7 +44,7 @@
 </table>
 
 <div class="container">
-	<div id="chart1"></div>
+	<div id="chart"></div>
 </div>
 @section scripts{
 	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
@@ -59,7 +59,7 @@
 					width: 500,
 					height: 400
 				};
-				chart = new google.visualization.PieChart(document.getElementById('chart1'));
+				chart = new google.visualization.PieChart(document.getElementById('chart'));
 				chart.draw(data, option);
 			})
 		}
