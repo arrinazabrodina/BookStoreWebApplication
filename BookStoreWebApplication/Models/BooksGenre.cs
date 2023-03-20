@@ -14,4 +14,16 @@ public partial class BooksGenre
     public virtual Book Book { get; set; } = null!;
 
     public virtual Genre Genre { get; set; } = null!;
+
+    public string? GenreName
+    {
+        get
+        {
+            if (Genre != null)
+            {
+                return Genre.Name;
+            }
+            return null;
+        }
+    }
 }

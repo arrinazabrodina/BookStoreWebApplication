@@ -1,0 +1,49 @@
+﻿@model IEnumerable<BookStoreWebApplication.Models.Availability>
+
+@{
+    ViewData["Title"] = "Доступності";
+}
+
+<h1>Доступності</h1>
+
+<p>
+    <a asp-action="Create">Додати нову доступність</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Book)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Bookstore)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Count)
+            </th>
+            <th>
+                Дії
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Book.FullInfo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Bookstore.FullAddress)
+            </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Count)
+                </td>
+            <td>
+                <a asp-action="Details" asp-route-id="@item.Id">Деталі</a> |
+                <a asp-action="Edit" asp-route-id="@item.Id">Редагувати</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id" class="destructive">Видалити</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

@@ -49,7 +49,7 @@ public partial class DbbookStoreContext : DbContext
             entity.Property(e => e.BirthDate)
                 .HasColumnType("datetime")
                 .HasColumnName("Birth_Date");
-            entity.Property(e => e.Genres).HasColumnType("ntext");
+            //entity.Property(e => e.Genres).HasColumnType("ntext");
             entity.Property(e => e.Name).HasMaxLength(100);
             entity.Property(e => e.ShortBiography)
                 .HasColumnType("ntext")
@@ -111,7 +111,7 @@ public partial class DbbookStoreContext : DbContext
             entity.Property(e => e.CoverType)
                 .HasMaxLength(50)
                 .HasColumnName("Cover_Type");
-            entity.Property(e => e.Genre).HasColumnType("ntext");
+            entity.Property(e => e.Name).HasColumnType("ntext");
             entity.Property(e => e.PublicationYear).HasColumnName("Publication_Year");
         });
 
@@ -164,7 +164,8 @@ public partial class DbbookStoreContext : DbContext
             entity.Property(e => e.BuyerId).HasColumnName("Buyer_Id");
             entity.Property(e => e.Date).HasColumnType("datetime");
             entity.Property(e => e.SellerId).HasColumnName("Seller_Id");
-
+            entity.Property(e => e.Price).HasColumnName("Price");
+            
             entity.HasOne(d => d.Buyer).WithMany(p => p.Orders)
                 .HasForeignKey(d => d.BuyerId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
@@ -180,7 +181,6 @@ public partial class DbbookStoreContext : DbContext
         {
             entity.HasKey(e => e.Id).HasName("PK_Items");
 
-            entity.Property(e => e.Id).ValueGeneratedNever();
             entity.Property(e => e.BookId).HasColumnName("Book_Id");
             entity.Property(e => e.BuyId).HasColumnName("Buy_Id");
 
